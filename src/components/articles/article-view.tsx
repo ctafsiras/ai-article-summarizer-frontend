@@ -21,7 +21,7 @@ export function ArticleView({ article }: { article: Article }) {
           ))}
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">{article.title}</h1>
-        <p className="text-lg text-muted-foreground">{article.author}</p>
+        {/* <p className="text-lg text-muted-foreground">{article.author}</p> */}
       </div>
 
       <div className="prose prose-lg dark:prose-invert mt-8 max-w-none">
