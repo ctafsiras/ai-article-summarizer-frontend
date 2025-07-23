@@ -15,13 +15,20 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getArticles } from "@/lib/api"
+import { getMyArticles } from "@/lib/api"
 import { Article } from "@/lib/types"
 import { ArticleModal } from "@/components/dashboard/article-modal"
 import { ViewArticleDialog } from "@/components/dashboard/view-article-dialog"
 import { DeleteConfirmDialog } from "@/components/dashboard/delete-confirm-dialog"
+import { useAuth } from "@/hooks/use-auth"
+import { useRouter } from "next/navigation"
 
 export default function DashboardPage() {
+    const { accessToken } = useAuth()
+    const router = useRouter()
+    if (!accessToken) {
+        router.push("/login")
+    }
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedTags, setSelectedTags] = useState<string[]>([])
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -32,7 +39,7 @@ export default function DashboardPage() {
 
     const { data: articles, isLoading } = useQuery({
         queryKey: ["articles"],
-        queryFn: getArticles,
+        queryFn: getMyArticles,
     })
 
     // Get all unique tags from articles

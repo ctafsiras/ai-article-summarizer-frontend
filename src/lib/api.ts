@@ -4,12 +4,20 @@ import axiosClient from "./axios";
 
 export async function getArticles(): Promise<Article[]> {
   const response = await axiosClient.get("articles");
-  console.log(response);
   if (!response.data.success) {
     throw new Error("Failed to fetch articles");
   }
   const data = response.data.data;
 
+  return data;
+}
+
+export async function getMyArticles(): Promise<Article[]> {
+  const response = await axiosClient.get("articles/my-articles");
+  if (!response.data.success) {
+    throw new Error("Failed to fetch articles");
+  }
+  const data = response.data.data;
   return data;
 }
 
