@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { LoginCredentials, SignupCredentials } from "@/lib/types";
+import { useEffect, useState } from "react";
 
 async function loginUser(credentials: LoginCredentials) {
   const response = await fetch("http://localhost:5000/api/v1/auth/login", {
@@ -33,11 +34,21 @@ async function signupUser(credentials: SignupCredentials) {
 
 export function useAuth() {
   const router = useRouter();
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const logout = () => {
+    localStorage.removeItem("token");
+    setAccessToken(null);
+    toast("Logout Successful", {
+      description: `You have been logged out!`,
+    });
+    router.push("/login");
+  };
   const { mutate: login, isPending: isLoggingIn } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       console.log(data);
       localStorage.setItem("token", data.accessToken);
+      setAccessToken(data.accessToken);
       toast("Login Successful", {
         description: `Welcome back!`,
       });
@@ -65,10 +76,19 @@ export function useAuth() {
     },
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setAccessToken(token);
+    }
+  }, []);
+
   return {
     login,
     isLoggingIn,
     signup,
     isSigningUp,
+    accessToken,
+    logout,
   };
 }

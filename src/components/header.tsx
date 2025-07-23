@@ -1,8 +1,12 @@
+"use client"
+
+import { useAuth } from "@/hooks/use-auth"
 import Link from "next/link"
 import { Button } from "./ui/button"
-import { BookOpen, LogIn } from "lucide-react"
+import { BookOpen, LogIn, LogOut } from "lucide-react"
 
 export function Header() {
+  const { accessToken, logout } = useAuth()
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -19,15 +23,31 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center space-x-2">
-          <Button asChild variant="ghost">
-            <Link href="/login">
-              <LogIn className="mr-2 h-4 w-4" />
-              Login
-            </Link>
-          </Button>
-          <Button asChild>
-            <Link href="/signup">Sign Up</Link>
-          </Button>
+          {accessToken ? (
+            <>
+              <Button asChild variant="default">
+                <Link href="/dashboard">
+                  Dashboard
+                </Link>
+              </Button>
+              <Button onClick={logout} variant="outline">
+                <LogOut className="mr-2 h-4 w-4" />
+                Log Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost">
+                <Link href="/login">
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Login
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link href="/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>
