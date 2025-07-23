@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 🚀 How to Run Locally
 
-## Getting Started
+Welcome to the project! Follow these steps to get the application running on your local machine.
 
-First, run the development server:
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js**: Version 20.x or higher is recommended.
+- **pnpm**: This project uses `pnpm` as the package manager. If you don't have it, you can install it with `npm install -g pnpm`.
+
+### 1. Clone the Repository
+
+First, clone the project repository to your local machine:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/ctafsiras/ai-article-summarizer-frontend.git
+cd ai-article-summarizer-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Backend Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To set up the backend server, please follow the instructions provided in the official backend repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[Backend Setup Guide](https://github.com/ctafsiras/ai-article-summarizer-backend/blob/main/README.md)
 
-## Learn More
+### 3. Frontend Setup
 
-To learn more about Next.js, take a look at the following resources:
+Now, let's set up the frontend application.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open a new terminal, navigate to the `ai-article-summarizer-frontend` directory, and install the dependencies:
 
-## Deploy on Vercel
+```bash
+cd ai-article-summarizer-frontend
+pnpm install
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Environment Variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create a `.env` file in the `ai-article-summarizer-frontend` directory. This file will contain the URL of your backend API.
+
+```env
+# URL of the backend server
+NEXT_PUBLIC_SERVER_URL="http://localhost:5000/api/v1"
+```
+
+#### Running the Frontend
+
+With the setup complete, you can now start the frontend development server:
+
+```bash
+pnpm dev
+```
+
+The frontend application should now be running on `http://localhost:3000`.
+
+### Summary
+
+To have the full stack running, you'll need two separate terminal windows:
+
+1.  One in the `ai-article-summarizer-backend` directory running `pnpm dev`.
+2.  Another in the `ai-article-summarizer-frontend` directory running `pnpm dev`.
+
+You can now access the application by opening `http://localhost:3000` in your web browser. Happy coding! 👨‍💻
