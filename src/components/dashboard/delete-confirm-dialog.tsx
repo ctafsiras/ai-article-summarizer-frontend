@@ -56,7 +56,7 @@ export function DeleteConfirmDialog({ open, onOpenChange, articleId, articleTitl
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently delete the article{" "}
-                        <span className="font-medium">"{articleTitle}"</span> and remove it from our servers.
+                        <span className="font-medium">&quot;{articleTitle}&quot;</span> and remove it from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
