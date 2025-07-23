@@ -72,3 +72,12 @@ export async function signupUser(credentials: SignupCredentials) {
   }
   return response.data.data;
 }
+
+export async function fetchSummary(articleId: string) {
+  const response = await axiosClient.get(`articles/summarize/${articleId}`);
+  if (!response.data.success) {
+    throw new Error("Failed to fetch summary");
+  }
+  const data = response.data.data.result;
+  return data;
+}
