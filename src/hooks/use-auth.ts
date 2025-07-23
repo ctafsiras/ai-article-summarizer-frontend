@@ -9,7 +9,9 @@ import { loginUser, signupUser } from "@/lib/api";
 
 export function useAuth() {
   const router = useRouter();
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    typeof window !== "undefined" ? localStorage.getItem("token") : null
+  );
   const logout = () => {
     localStorage.removeItem("token");
     setAccessToken(null);
@@ -52,9 +54,11 @@ export function useAuth() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setAccessToken(token);
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        setAccessToken(token);
+      }
     }
   }, []);
 
