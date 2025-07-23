@@ -120,7 +120,10 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
         if (mode === "create") {
             createMutation.mutate(articleData)
         } else if (mode === "edit" && article) {
-            updateMutation.mutate(articleData)
+            updateMutation.mutate({
+                id: article.id,
+                article: articleData,
+            })
         }
     }
 

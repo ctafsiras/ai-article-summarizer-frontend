@@ -1,74 +1,74 @@
 import type { Article } from "./types";
+import type { LoginCredentials, SignupCredentials } from "./types";
+import axiosClient from "./axios";
 
 export async function getArticles(): Promise<Article[]> {
-  const response = await fetch("http://localhost:5000/api/v1/articles");
-  if (!response.ok) {
+  const response = await axiosClient.get("articles");
+  console.log(response);
+  if (!response.data.success) {
     throw new Error("Failed to fetch articles");
   }
-  const data = await response.json();
+  const data = response.data.data;
 
-  return data.data;
+  return data;
 }
 
 export async function getArticleById(id: string): Promise<Article | undefined> {
-  const response = await fetch(`http://localhost:5000/api/v1/articles/${id}`);
-  if (!response.ok) {
+  const response = await axiosClient.get(`articles/${id}`);
+  if (!response.data.success) {
     throw new Error("Failed to fetch article");
   }
-  const data = await response.json();
-  return data.data;
+  const data = response.data.data;
+  return data;
 }
 
 export async function createArticle(
   article: Partial<Article>
 ): Promise<Article | undefined> {
-  const response = await fetch(`http://localhost:5000/api/v1/articles`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-    body: JSON.stringify(article),
-  });
-  if (!response.ok) {
+  const response = await axiosClient.post("articles", article);
+  if (!response.data.success) {
     throw new Error("Failed to create article");
   }
-  const data = await response.json();
-  return data.data;
+  const data = response.data.data;
+  return data;
 }
 
-export async function updateArticle(
-  article: Partial<Article>
-): Promise<Article | undefined> {
-  const response = await fetch(
-    `http://localhost:5000/api/v1/articles/${article.id}`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(article),
-    }
-  );
-  if (!response.ok) {
+export async function updateArticle({
+  id,
+  article,
+}: {
+  id: string;
+  article: Partial<Article>;
+}): Promise<Article | undefined> {
+  const response = await axiosClient.patch(`articles/${id}`, article);
+  if (!response.data.success) {
     throw new Error("Failed to update article");
   }
-  const data = await response.json();
-  return data.data;
+  const data = response.data.data;
+  return data;
 }
 
 export async function deleteArticle(id: string): Promise<Article | undefined> {
-  const response = await fetch(`http://localhost:5000/api/v1/articles/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-  if (!response.ok) {
+  const response = await axiosClient.delete(`articles/${id}`);
+  if (!response.data.success) {
     throw new Error("Failed to delete article");
   }
-  const data = await response.json();
-  return data.data;
+  const data = response.data.data;
+  return data;
+}
+
+export async function loginUser(credentials: LoginCredentials) {
+  const response = await axiosClient.post("auth/login", credentials);
+  if (!response.data.success) {
+    throw new Error(response.data.message || "Login failed");
+  }
+  return response.data.data;
+}
+
+export async function signupUser(credentials: SignupCredentials) {
+  const response = await axiosClient.post("users", credentials);
+  if (!response.data.success) {
+    throw new Error(response.data.message || "Signup failed");
+  }
+  return response.data.data;
 }

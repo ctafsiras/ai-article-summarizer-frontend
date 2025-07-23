@@ -5,32 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { LoginCredentials, SignupCredentials } from "@/lib/types";
 import { useEffect, useState } from "react";
-
-async function loginUser(credentials: LoginCredentials) {
-  const response = await fetch("http://localhost:5000/api/v1/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials),
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message || "Login failed");
-  }
-  return data;
-}
-
-async function signupUser(credentials: SignupCredentials) {
-  const response = await fetch("http://localhost:5000/api/v1/users", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials),
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message || "Signup failed");
-  }
-  return data;
-}
+import { loginUser, signupUser } from "@/lib/api";
 
 export function useAuth() {
   const router = useRouter();
