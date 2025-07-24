@@ -133,7 +133,7 @@ export default function DashboardPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[300px]">Title</TableHead>
+                <TableHead className="w-[200px]">Title</TableHead>
                 <TableHead className="">Description</TableHead>
                 <TableHead>Tags</TableHead>
                 <TableHead>Created At</TableHead>
@@ -145,7 +145,10 @@ export default function DashboardPage() {
                 Array.from({ length: 5 }).map((_, index) => (
                   <TableRow key={index}>
                     <TableCell>
-                      <Skeleton className="h-6 w-[250px]" />
+                      <Skeleton className="h-6 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-6 w-[150px]" />
                     </TableCell>
                     <TableCell>
                       <Skeleton className="h-6 w-[150px]" />
@@ -175,7 +178,7 @@ export default function DashboardPage() {
                       </Button></TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
-                        {article.tags.map((tag) => (
+                        {article.tags.slice(0, 3).map((tag) => (
                           <Badge key={tag} variant="outline">
                             {tag}
                           </Badge>
