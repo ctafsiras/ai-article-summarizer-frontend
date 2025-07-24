@@ -158,7 +158,7 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
             <DialogContent className="sm:max-w-[600px]">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
-                        <DialogTitle>{mode === "create" ? "Create Article" : "Edit Article"}</DialogTitle>
+                        <DialogTitle>{mode === "create" ? "Create or Import Article" : "Edit Article"}</DialogTitle>
                         <DialogDescription>
                             {mode === "create" ? "Add a new article to your collection." : "Make changes to your article here."}
                         </DialogDescription>
@@ -179,7 +179,7 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
                                             type="button"
                                             onClick={() => parseArticleMutation.mutate(articleLink)}
                                         >
-                                            Parse Article
+                                            Import Article
                                         </Button>
                                     </div>
                                 </div>
