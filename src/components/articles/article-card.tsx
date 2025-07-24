@@ -1,11 +1,19 @@
-import Link from "next/link"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import type { Article } from "@/lib/types"
-import { ArrowRight } from "lucide-react"
+import Link from 'next/link';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import type { Article } from '@/lib/types';
+import { ArrowRight } from 'lucide-react';
 
 export function ArticleCard({ article }: { article: Article }) {
-  const shortBody = article.body.length > 100 ? `${article.body.substring(0, 100)}...` : article.body
+  const shortBody =
+    article.body.length > 100 ? `${article.body.substring(0, 100)}...` : article.body;
 
   return (
     <Link href={`/articles/${article.id}`} className="group">
@@ -30,5 +38,5 @@ export function ArticleCard({ article }: { article: Article }) {
         </CardFooter>
       </Card>
     </Link>
-  )
+  );
 }

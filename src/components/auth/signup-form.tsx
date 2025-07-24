@@ -1,34 +1,41 @@
-"use client"
+'use client';
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useAuth } from "@/hooks/use-auth"
-import { Loader2 } from "lucide-react"
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useAuth } from '@/hooks/use-auth';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
-})
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  email: z.string().email({ message: 'Invalid email address.' }),
+  password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
+});
 
 export function SignupForm() {
-  const { signup, isSigningUp } = useAuth()
+  const { signup, isSigningUp } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
-  })
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    signup(values)
+    signup(values);
   }
 
   return (
@@ -79,5 +86,5 @@ export function SignupForm() {
         </Button>
       </form>
     </Form>
-  )
+  );
 }

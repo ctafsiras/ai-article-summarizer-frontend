@@ -1,38 +1,38 @@
-"use client";
+'use client';
 
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import type { LoginCredentials, SignupCredentials } from "@/lib/types";
-import { useEffect, useState } from "react";
-import { loginUser, signupUser } from "@/lib/api";
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import type { LoginCredentials, SignupCredentials } from '@/lib/types';
+import { useEffect, useState } from 'react';
+import { loginUser, signupUser } from '@/lib/api';
 
 export function useAuth() {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState<string | null>(
-    typeof window !== "undefined" ? localStorage.getItem("token") : null
+    typeof window !== 'undefined' ? localStorage.getItem('token') : null,
   );
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setAccessToken(null);
-    toast("Logout Successful", {
+    toast('Logout Successful', {
       description: `You have been logged out!`,
     });
-    router.push("/login");
+    router.push('/login');
   };
   const { mutate: login, isPending: isLoggingIn } = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       console.log(data);
-      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem('token', data.accessToken);
       setAccessToken(data.accessToken);
-      toast("Login Successful", {
+      toast('Login Successful', {
         description: `Welcome back!`,
       });
-      router.push("/articles");
+      router.push('/articles');
     },
     onError: (error) => {
-      toast("Login Failed", {
+      toast('Login Failed', {
         description: error.message,
       });
     },
@@ -41,21 +41,21 @@ export function useAuth() {
   const { mutate: signup, isPending: isSigningUp } = useMutation({
     mutationFn: signupUser,
     onSuccess: () => {
-      toast("Signup Successful", {
-        description: "You can now log in with your new account.",
+      toast('Signup Successful', {
+        description: 'You can now log in with your new account.',
       });
-      router.push("/login");
+      router.push('/login');
     },
     onError: (error) => {
-      toast("Signup Failed", {
+      toast('Signup Failed', {
         description: error.message,
       });
     },
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
       if (token) {
         setAccessToken(token);
       }

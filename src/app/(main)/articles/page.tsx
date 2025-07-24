@@ -1,79 +1,87 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
-import { PlusCircle, Search, Filter, Eye, Pencil, Trash2, Link as LinkIcon } from "lucide-react"
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { PlusCircle, Search, Filter, Eye, Pencil, Trash2, Link as LinkIcon } from 'lucide-react';
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
-import { getMyArticles } from "@/lib/api"
-import { Article } from "@/lib/types"
-import { ArticleModal } from "@/components/dashboard/article-modal"
-import { ViewArticleDialog } from "@/components/dashboard/view-article-dialog"
-import { DeleteConfirmDialog } from "@/components/dashboard/delete-confirm-dialog"
-import { useAuth } from "@/hooks/use-auth"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+} from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+import { getMyArticles } from '@/lib/api';
+import { Article } from '@/lib/types';
+import { ArticleModal } from '@/components/dashboard/article-modal';
+import { ViewArticleDialog } from '@/components/dashboard/view-article-dialog';
+import { DeleteConfirmDialog } from '@/components/dashboard/delete-confirm-dialog';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function DashboardPage() {
-  const { accessToken } = useAuth()
-  const router = useRouter()
+  const { accessToken } = useAuth();
+  const router = useRouter();
   if (!accessToken) {
-    router.push("/login")
+    router.push('/login');
   }
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-  const [currentArticle, setCurrentArticle] = useState<Article | null>(null)
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentArticle, setCurrentArticle] = useState<Article | null>(null);
 
   const { data: articles, isLoading } = useQuery({
-    queryKey: ["articles"],
+    queryKey: ['articles'],
     queryFn: getMyArticles,
-  })
+  });
 
   // Get all unique tags from articles
-  const allTags = articles ? [...new Set(articles.flatMap((article) => article.tags))] : []
+  const allTags = articles ? [...new Set(articles.flatMap((article) => article.tags))] : [];
 
   // Filter articles based on search query and selected tags
   const filteredArticles = articles
     ? articles.filter((article) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        article.body.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesSearch =
+          searchQuery === '' ||
+          article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          article.body.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesTags = selectedTags.length === 0 || selectedTags.some((tag) => article.tags.includes(tag))
+        const matchesTags =
+          selectedTags.length === 0 || selectedTags.some((tag) => article.tags.includes(tag));
 
-      return matchesSearch && matchesTags
-    })
-    : []
+        return matchesSearch && matchesTags;
+      })
+    : [];
 
   const handleOpenViewDialog = (article: Article) => {
-    setCurrentArticle(article)
-    setIsViewDialogOpen(true)
-  }
+    setCurrentArticle(article);
+    setIsViewDialogOpen(true);
+  };
 
   const handleOpenEditModal = (article: Article) => {
-    setCurrentArticle(article)
-    setIsEditModalOpen(true)
-  }
+    setCurrentArticle(article);
+    setIsEditModalOpen(true);
+  };
 
   const handleOpenDeleteDialog = (article: Article) => {
-    setCurrentArticle(article)
-    setIsDeleteDialogOpen(true)
-  }
+    setCurrentArticle(article);
+    setIsDeleteDialogOpen(true);
+  };
 
   return (
     <div className="container mx-auto py-10">
@@ -115,16 +123,18 @@ export default function DashboardPage() {
                   checked={selectedTags.includes(tag)}
                   onCheckedChange={(checked) => {
                     if (checked) {
-                      setSelectedTags([...selectedTags, tag])
+                      setSelectedTags([...selectedTags, tag]);
                     } else {
-                      setSelectedTags(selectedTags.filter((t) => t !== tag))
+                      setSelectedTags(selectedTags.filter((t) => t !== tag));
                     }
                   }}
                 >
                   {tag}
                 </DropdownMenuCheckboxItem>
               ))}
-              {allTags.length === 0 && <div className="px-2 py-1.5 text-sm text-muted-foreground">No tags found</div>}
+              {allTags.length === 0 && (
+                <div className="px-2 py-1.5 text-sm text-muted-foreground">No tags found</div>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -170,32 +180,45 @@ export default function DashboardPage() {
               ) : (
                 filteredArticles.map((article) => (
                   <TableRow key={article.id}>
-                    <TableCell className="font-medium">{article.title.slice(0, 40)}{article.title.length > 40 && <span title={article.title}>...</span>}</TableCell>
                     <TableCell className="font-medium">
-                      <Button size="icon" variant="ghost" onClick={() => handleOpenViewDialog(article)}>
+                      {article.title.slice(0, 40)}
+                      {article.title.length > 40 && <span title={article.title}>...</span>}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => handleOpenViewDialog(article)}
+                      >
                         <Eye className="h-4 w-4" />
                         <span className="sr-only">View</span>
-                      </Button></TableCell>
+                      </Button>
+                    </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
-                        {article.tags.length > 0 ? (article.tags.slice(0, 3).map((tag) => (
-                          <Badge key={tag} variant="outline">
-                            {tag}
-                          </Badge>
-                        ))) : <span className="text-muted-foreground">No tags</span>}
+                        {article.tags.length > 0 ? (
+                          article.tags.slice(0, 3).map((tag) => (
+                            <Badge key={tag} variant="outline">
+                              {tag}
+                            </Badge>
+                          ))
+                        ) : (
+                          <span className="text-muted-foreground">No tags</span>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>{new Date(article.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button variant={"outline"}>
-                          <Link
-                            href={`/articles/${article.id}`}
-                          >
-                            Read
-                          </Link>
+                        <Button variant={'outline'}>
+                          <Link href={`/articles/${article.id}`}>Read</Link>
                         </Button>
-                        <Button title="Edit" size="icon" variant="ghost" onClick={() => handleOpenEditModal(article)}>
+                        <Button
+                          title="Edit"
+                          size="icon"
+                          variant="ghost"
+                          onClick={() => handleOpenEditModal(article)}
+                        >
                           <Pencil className="h-4 w-4" />
                           <span className="sr-only">Edit</span>
                         </Button>
@@ -223,9 +246,18 @@ export default function DashboardPage() {
 
       {currentArticle && (
         <>
-          <ArticleModal open={isEditModalOpen} onOpenChange={setIsEditModalOpen} mode="edit" article={currentArticle} />
+          <ArticleModal
+            open={isEditModalOpen}
+            onOpenChange={setIsEditModalOpen}
+            mode="edit"
+            article={currentArticle}
+          />
 
-          <ViewArticleDialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen} article={currentArticle} />
+          <ViewArticleDialog
+            open={isViewDialogOpen}
+            onOpenChange={setIsViewDialogOpen}
+            article={currentArticle}
+          />
 
           <DeleteConfirmDialog
             open={isDeleteDialogOpen}
@@ -236,5 +268,5 @@ export default function DashboardPage() {
         </>
       )}
     </div>
-  )
+  );
 }

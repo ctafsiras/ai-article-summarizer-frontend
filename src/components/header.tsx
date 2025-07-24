@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { useAuth } from "@/hooks/use-auth"
-import Link from "next/link"
-import { Button } from "./ui/button"
-import { BookOpen, LogIn, LogOut } from "lucide-react"
+import { useAuth } from '@/hooks/use-auth';
+import Link from 'next/link';
+import { Button } from './ui/button';
+import { BookOpen, LogIn, LogOut } from 'lucide-react';
 
 export function Header() {
-  const { accessToken, logout } = useAuth()
+  const { accessToken, logout } = useAuth();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-5xl mx-auto flex h-14 items-center justify-between px-4">
@@ -48,5 +48,5 @@ export function Header() {
         </Link>
       </nav>
     </header>
-  )
+  );
 }

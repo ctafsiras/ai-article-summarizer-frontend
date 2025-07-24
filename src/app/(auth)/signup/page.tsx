@@ -1,6 +1,6 @@
-import { SignupForm } from "@/components/auth/signup-form"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import Link from "next/link"
+import { SignupForm } from '@/components/auth/signup-form';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from 'next/link';
 
 export default function SignupPage() {
   return (
@@ -12,12 +12,12 @@ export default function SignupPage() {
       <CardContent>
         <SignupForm />
         <div className="mt-4 text-center text-sm">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link href="/login" className="underline">
             Log in
           </Link>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { fetchSummary } from "@/lib/api";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { fetchSummary } from '@/lib/api';
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export function useSummarize(articleId: string) {
   const [summary, setSummary] = useState<string | null>(null);
