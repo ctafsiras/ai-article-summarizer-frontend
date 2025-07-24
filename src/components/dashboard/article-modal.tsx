@@ -243,7 +243,7 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
                         <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                             Cancel
                         </Button>
-                        <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
+                        <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending || !title.trim() || !body.trim() || parseArticleMutation.isPending}>
                             {createMutation.isPending || updateMutation.isPending
                                 ? "Saving..."
                                 : mode === "create"
