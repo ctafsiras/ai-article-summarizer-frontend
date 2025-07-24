@@ -134,7 +134,7 @@ export default function DashboardPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[300px]">Title</TableHead>
-                <TableHead className="">Preview</TableHead>
+                <TableHead className="">Description</TableHead>
                 <TableHead>Tags</TableHead>
                 <TableHead>Created At</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -185,17 +185,11 @@ export default function DashboardPage() {
                     <TableCell>{new Date(article.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button
-                          asChild
-                          size="icon"
-                          variant="ghost"
-                          title="Open article in new tab"
-                        >
+                        <Button variant={"outline"}>
                           <Link
                             href={`/articles/${article.id}`}
                           >
-                            <LinkIcon className="h-4 w-4" />
-                            <span className="sr-only">Open in new tab</span>
+                            Read
                           </Link>
                         </Button>
                         <Button size="icon" variant="ghost" onClick={() => handleOpenEditModal(article)}>

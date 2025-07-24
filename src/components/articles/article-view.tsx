@@ -1,17 +1,23 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useSummarize } from "@/hooks/use-articles"
 import type { Article } from "@/lib/types"
-import { Loader2, Sparkles } from "lucide-react"
+import { ArrowLeft, Loader2, Sparkles } from "lucide-react"
 
 export function ArticleView({ article }: { article: Article }) {
   const { summarize, summary, isSummarizing, error } = useSummarize(article.id)
+  const router = useRouter()
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-12">
+      <Button variant="outline" className="mb-6" onClick={() => router.back()}>
+        <ArrowLeft className="h-4 w-4" />Back
+      </Button>
+
       <div className="space-y-4">
         <div className="flex flex-wrap gap-2">
           {article.tags.map((tag) => (
