@@ -152,8 +152,30 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (
+          createMutation.isPending ||
+          updateMutation.isPending ||
+          parseArticleMutation.isPending
+        ) {
+          // Prevent closing while any mutation is pending
+          return;
+        }
+        onOpenChange(nextOpen);
+      }}
+    >
+      <DialogContent
+        className="sm:max-w-[600px]"
+        showCloseButton={
+          !(
+            createMutation.isPending ||
+            updateMutation.isPending ||
+            parseArticleMutation.isPending
+          )
+        }
+      >
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>
@@ -243,7 +265,25 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                if (
+                  createMutation.isPending ||
+                  updateMutation.isPending ||
+                  parseArticleMutation.isPending
+                ) {
+                  return;
+                }
+                onOpenChange(false);
+              }}
+              disabled={
+                createMutation.isPending ||
+                updateMutation.isPending ||
+                parseArticleMutation.isPending
+              }
+            >
               Cancel
             </Button>
             <Button
