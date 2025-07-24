@@ -178,8 +178,9 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
                                         <Button
                                             type="button"
                                             onClick={() => parseArticleMutation.mutate(articleLink)}
+                                            disabled={parseArticleMutation.isPending}
                                         >
-                                            Import Article
+                                            {parseArticleMutation.isPending ? "Importing..." : "Import Article"}
                                         </Button>
                                     </div>
                                 </div>
