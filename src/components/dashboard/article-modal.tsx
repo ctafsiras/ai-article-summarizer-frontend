@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 
-import { createArticle, updateArticle } from "@/lib/api"
+import { createArticle, parseArticle, updateArticle } from "@/lib/api"
 import { Article } from "@/lib/types"
 import { toast } from "sonner"
 
@@ -36,6 +36,7 @@ interface ArticleModalProps {
 export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModalProps) {
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
+    const [articleLink, setArticleLink] = useState("")
     const [tagInput, setTagInput] = useState("")
     const [tags, setTags] = useState<string[]>([])
     const queryClient = useQueryClient()
@@ -55,6 +56,7 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
         setBody("")
         setTagInput("")
         setTags([])
+        setArticleLink("")
     }
 
     const createMutation = useMutation({
@@ -86,6 +88,23 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
         onError: () => {
             toast("Error", {
                 description: "Failed to update article. Please try again.",
+            })
+        },
+    })
+
+    const parseArticleMutation = useMutation({
+        mutationFn: parseArticle,
+        onSuccess: (data) => {
+            toast("Article parsed", {
+                description: "Your article has been parsed successfully.",
+            })
+            setBody(data.body)
+            setTitle(data.title)
+            setTags(data.tags)
+        },
+        onError: () => {
+            toast("Error", {
+                description: "Failed to parse article. Please try again.",
             })
         },
     })
@@ -145,6 +164,26 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
+                        {
+                            mode === "create" && (
+                                <div className="grid gap-2">
+                                    <Label htmlFor="articleLink">Article Link (Optional)</Label>
+                                    <div className="flex gap-2">
+                                        <Input
+                                            id="articleLink"
+                                            value={articleLink}
+                                            onChange={(e) => setArticleLink(e.target.value)}
+                                            placeholder="Enter article link"
+                                        />
+                                        <Button
+                                            type="button"
+                                            onClick={() => parseArticleMutation.mutate(articleLink)}
+                                        >
+                                            Parse Article
+                                        </Button>
+                                    </div>
+                                </div>
+                            )}
                         <div className="grid gap-2">
                             <Label htmlFor="title">Title</Label>
                             <Input

@@ -89,3 +89,14 @@ export async function fetchSummary(articleId: string) {
   const data = response.data.data.result;
   return data;
 }
+
+export async function parseArticle(articleLink: string) {
+  const response = await axiosClient.post(`articles/parse-from-link`, {
+    articleLink,
+  });
+  if (!response.data.success) {
+    throw new Error("Failed to parse article");
+  }
+  const data = response.data.data;
+  return data;
+}
