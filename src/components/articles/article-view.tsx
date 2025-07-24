@@ -30,12 +30,7 @@ export function ArticleView({ article }: { article: Article }) {
         {/* <p className="text-lg text-muted-foreground">{article.author}</p> */}
       </div>
 
-      <div className="prose prose-lg dark:prose-invert mt-8 max-w-none">
-        <p>{article.body}</p>
-      </div>
-
-      <div className="mt-12 border-t pt-8">
-        <h2 className="mb-4 text-2xl font-bold">AI Summary</h2>
+      <div className="mt-8">
         <Button onClick={() => summarize()} disabled={isSummarizing}>
           {isSummarizing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
           {isSummarizing ? "Generating..." : "Summarize this article"}
@@ -55,6 +50,10 @@ export function ArticleView({ article }: { article: Article }) {
           </Card>
         )}
       </div>
+      <div className="prose prose-lg dark:prose-invert mt-8 max-w-none">
+        <p>{article.body}</p>
+      </div>
+
     </div>
   )
 }
