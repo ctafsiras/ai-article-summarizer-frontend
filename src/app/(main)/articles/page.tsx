@@ -178,11 +178,11 @@ export default function DashboardPage() {
                       </Button></TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
-                        {article.tags.slice(0, 3).map((tag) => (
+                        {article.tags.length > 0 ? (article.tags.slice(0, 3).map((tag) => (
                           <Badge key={tag} variant="outline">
                             {tag}
                           </Badge>
-                        ))}
+                        ))) : <span className="text-muted-foreground">No tags</span>}
                       </div>
                     </TableCell>
                     <TableCell>{new Date(article.createdAt).toLocaleDateString()}</TableCell>
@@ -195,11 +195,12 @@ export default function DashboardPage() {
                             Read
                           </Link>
                         </Button>
-                        <Button size="icon" variant="ghost" onClick={() => handleOpenEditModal(article)}>
+                        <Button title="Edit" size="icon" variant="ghost" onClick={() => handleOpenEditModal(article)}>
                           <Pencil className="h-4 w-4" />
                           <span className="sr-only">Edit</span>
                         </Button>
                         <Button
+                          title="Delete"
                           size="icon"
                           variant="ghost"
                           className="text-destructive hover:text-destructive"
