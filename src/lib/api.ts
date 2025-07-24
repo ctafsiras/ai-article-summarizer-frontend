@@ -88,6 +88,18 @@ export async function fetchSummary(articleId: string) {
   return data;
 }
 
+export async function askArticleAI(
+  articleId: string,
+  messages: { role: 'user' | 'system'; content: string }[],
+): Promise<string> {
+  const response = await axiosClient.post(`articles/ask/${articleId}`, { messages });
+  if (!response.data.success) {
+    throw new Error('Failed to ask article');
+  }
+  const data = response.data.data.result;
+  return data;
+}
+
 export async function parseArticle(articleLink: string) {
   const response = await axiosClient.post(`articles/parse-from-link`, {
     articleLink,

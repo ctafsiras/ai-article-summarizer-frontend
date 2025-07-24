@@ -8,6 +8,8 @@ import { useSummarize } from '@/hooks/use-articles';
 import type { Article } from '@/lib/types';
 import { ArrowLeft, Loader2, Sparkles } from 'lucide-react';
 
+import { ChatBox } from '../chat/chat-box';
+
 export function ArticleView({ article }: { article: Article }) {
   const { summarize, summary, isSummarizing, error } = useSummarize(article.id);
   const router = useRouter();
@@ -64,6 +66,7 @@ export function ArticleView({ article }: { article: Article }) {
       <div className="prose prose-lg dark:prose-invert mt-8 max-w-none">
         <p>{article.body}</p>
       </div>
+      <ChatBox articleId={article.id} />
     </div>
   );
 }
