@@ -170,7 +170,7 @@ export default function DashboardPage() {
               ) : (
                 filteredArticles.map((article) => (
                   <TableRow key={article.id}>
-                    <TableCell className="font-medium">{article.title}</TableCell>
+                    <TableCell className="font-medium">{article.title.slice(0, 40)}{article.title.length > 40 && <span title={article.title}>...</span>}</TableCell>
                     <TableCell className="font-medium">
                       <Button size="icon" variant="ghost" onClick={() => handleOpenViewDialog(article)}>
                         <Eye className="h-4 w-4" />
