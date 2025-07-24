@@ -54,13 +54,42 @@ With the setup complete, you can now start the frontend development server:
 pnpm dev
 ```
 
+## Running with Docker
+
+You can run this backend easily using Docker. This is useful for local development, production deployments, or when you want to avoid installing dependencies manually.
+
+### 1. Prepare Your `.env` File
+
+Make sure you have a `.env` file with above mentioned variables.
+
+### 2. Build the Docker Image
+
+From the `ai-article-summarizer-frontend/` directory, build the Docker image:
+
+```bash
+docker build -t ai-article-summarizer-frontend .
+```
+
+### 3. Run the Docker Container
+
+Run the container and pass your `.env` file:
+
+```bash
+docker run --env-file .env -p 3000:3000 ai-article-summarizer-frontend
+```
+
+- The app will be available at [http://localhost:3000](http://localhost:3000) (or the port you specify in `.env`).
+- Ensure your database and API keys are reachable from inside the container.
+
+---
+
 The frontend application should now be running on `http://localhost:3000`.
 
 ### Summary
 
 To have the full stack running, you'll need two separate terminal windows:
 
-1.  One in the `ai-article-summarizer-backend` directory running `pnpm dev`.
-2.  Another in the `ai-article-summarizer-frontend` directory running `pnpm dev`.
+1.  One in the `ai-article-summarizer-backend` directory running `pnpm dev` or use `docker run --env-file .env -p 5000:5000 ai-article-summarizer-backend`
+2.  Another in the `ai-article-summarizer-frontend` directory running `pnpm dev` or use `docker run --env-file .env -p 3000:3000 ai-article-summarizer-frontend`
 
 You can now access the application by opening `http://localhost:3000` in your web browser. Happy coding! 👨‍💻
