@@ -19,7 +19,15 @@ export const ChatBox: React.FC<{ articleId: string }> = ({ articleId }) => {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const scrollViewportRef = useRef<HTMLDivElement | null>(null);
+  React.useEffect(() => {
+    const viewport = document.querySelector(
+      '[data-slot="scroll-area-viewport"]',
+    ) as HTMLDivElement | null;
+    if (viewport) {
+      scrollViewportRef.current = viewport;
+    }
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -44,9 +52,11 @@ export const ChatBox: React.FC<{ articleId: string }> = ({ articleId }) => {
   };
 
   React.useEffect(() => {
-    // Scroll to bottom whenever messages change
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+    if (scrollViewportRef.current) {
+      scrollViewportRef.current.scrollTo({
+        top: scrollViewportRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
     }
   }, [messages]);
 
@@ -57,7 +67,7 @@ export const ChatBox: React.FC<{ articleId: string }> = ({ articleId }) => {
     >
       <Card>
         <CardContent className="p-0">
-          <ScrollArea className="h-72 p-4" ref={scrollRef}>
+          <ScrollArea className="h-72 p-4" ref={scrollViewportRef}>
             <div className="flex flex-col gap-3">
               {messages.map((msg, idx) => (
                 <div
