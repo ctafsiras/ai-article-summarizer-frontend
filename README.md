@@ -56,30 +56,43 @@ pnpm dev
 
 ## Running with Docker
 
-You can run this backend easily using Docker. This is useful for local development, production deployments, or when you want to avoid installing dependencies manually.
+You can run this frontend easily using Docker, either by building the image locally or pulling it from GitHub Container Registry.
 
 ### 1. Prepare Your `.env` File
 
-Make sure you have a `.env` file with above mentioned variables.
+Make sure you have a `.env` file with the required environment variables as described above.
 
-### 2. Build the Docker Image
+### 2. Obtain the Docker Image
 
-From the `ai-article-summarizer-frontend/` directory, build the Docker image:
+You have two options:
 
-```bash
-docker build -t ai-article-summarizer-frontend .
-```
+- **Build the image locally:**
+
+  ```bash
+  docker build -t ai-article-summarizer-frontend .
+  ```
+
+- **Or pull the prebuilt image:**
+  ```bash
+  docker pull ghcr.io/ctafsiras/ai-article-summarizer-frontend:latest
+  ```
 
 ### 3. Run the Docker Container
 
-Run the container and pass your `.env` file:
+Run the container with your `.env` file:
 
 ```bash
 docker run --env-file .env -p 3000:3000 ai-article-summarizer-frontend
 ```
 
+or, if you pulled the image:
+
+```bash
+docker run --env-file .env -p 3000:3000 ghcr.io/ctafsiras/ai-article-summarizer-frontend:latest
+```
+
 - The app will be available at [http://localhost:3000](http://localhost:3000) (or the port you specify in `.env`).
-- Ensure your database and API keys are reachable from inside the container.
+- Ensure your backend API is reachable from inside the container.
 
 ---
 
