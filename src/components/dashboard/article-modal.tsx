@@ -169,11 +169,7 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
       <DialogContent
         className="sm:max-w-[600px]"
         showCloseButton={
-          !(
-            createMutation.isPending ||
-            updateMutation.isPending ||
-            parseArticleMutation.isPending
-          )
+          !(createMutation.isPending || updateMutation.isPending || parseArticleMutation.isPending)
         }
       >
         <form onSubmit={handleSubmit}>
