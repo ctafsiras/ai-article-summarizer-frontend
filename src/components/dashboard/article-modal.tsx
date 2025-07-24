@@ -199,9 +199,10 @@ export function ArticleModal({ open, onOpenChange, mode, article }: ArticleModal
                             <Textarea
                                 id="body"
                                 value={body}
+                                rows={5}
                                 onChange={(e) => setBody(e.target.value)}
                                 placeholder="Enter article content"
-                                className="min-h-[150px]"
+                                className="min-h-[150px] max-h-[300px]"
                             />
                         </div>
                         <div className="grid gap-2">
