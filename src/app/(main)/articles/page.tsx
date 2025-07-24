@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { PlusCircle, Search, Filter, Eye, Pencil, Trash2 } from "lucide-react"
+import { PlusCircle, Search, Filter, Eye, Pencil, Trash2, Link as LinkIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,6 +22,7 @@ import { ViewArticleDialog } from "@/components/dashboard/view-article-dialog"
 import { DeleteConfirmDialog } from "@/components/dashboard/delete-confirm-dialog"
 import { useAuth } from "@/hooks/use-auth"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function DashboardPage() {
   const { accessToken } = useAuth()
@@ -133,6 +134,7 @@ export default function DashboardPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[300px]">Title</TableHead>
+                <TableHead className="">Preview</TableHead>
                 <TableHead>Tags</TableHead>
                 <TableHead>Created At</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -166,6 +168,11 @@ export default function DashboardPage() {
                 filteredArticles.map((article) => (
                   <TableRow key={article.id}>
                     <TableCell className="font-medium">{article.title}</TableCell>
+                    <TableCell className="font-medium">
+                      <Button size="icon" variant="ghost" onClick={() => handleOpenViewDialog(article)}>
+                        <Eye className="h-4 w-4" />
+                        <span className="sr-only">View</span>
+                      </Button></TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {article.tags.map((tag) => (
@@ -178,9 +185,18 @@ export default function DashboardPage() {
                     <TableCell>{new Date(article.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button size="icon" variant="ghost" onClick={() => handleOpenViewDialog(article)}>
-                          <Eye className="h-4 w-4" />
-                          <span className="sr-only">View</span>
+                        <Button
+                          asChild
+                          size="icon"
+                          variant="ghost"
+                          title="Open article in new tab"
+                        >
+                          <Link
+                            href={`/articles/${article.id}`}
+                          >
+                            <LinkIcon className="h-4 w-4" />
+                            <span className="sr-only">Open in new tab</span>
+                          </Link>
                         </Button>
                         <Button size="icon" variant="ghost" onClick={() => handleOpenEditModal(article)}>
                           <Pencil className="h-4 w-4" />

@@ -14,14 +14,6 @@ export function Header() {
           <BookOpen className="h-6 w-6" />
           <span className="font-bold text-base sm:text-lg">Article Summarizer</span>
         </Link>
-        <nav className="hidden sm:flex items-center">
-          <Link
-            href="/articles"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            Articles
-          </Link>
-        </nav>
         <div className="flex items-center space-x-2">
           {accessToken ? (
             <Button onClick={logout} variant="outline" size="sm">
